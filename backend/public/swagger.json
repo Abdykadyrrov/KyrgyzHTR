@@ -1,0 +1,128 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "OCR API с Claude AI",
+    "description": "API для распознавания текста с изображений с использованием Claude AI",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/api",
+      "description": "API сервер"
+    }
+  ],
+  "paths": {
+    "/ocr/image": {
+      "post": {
+        "summary": "Распознать текст с изображения",
+        "description": "Загрузите изображение и получите распознанный текст с использованием Claude AI",
+        "operationId": "ocrImage",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Изображение с текстом для распознавания"
+                  }
+                },
+                "required": ["image"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешный ответ с распознанным текстом",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "description": "Распознанный текст с изображения"
+                    }
+                  }
+                },
+                "example": {
+                  "text": "Пример распознанного текста с изображения"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Плохой запрос",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error": "Изображение не загружено"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка сервера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error": "Ошибка при распознавании текста"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Проверка статуса сервиса",
+        "description": "Получить информацию о работоспособности сервиса",
+        "operationId": "healthCheck",
+        "responses": {
+          "200": {
+            "description": "Статус сервиса",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": "OK",
+                  "message": "OCR сервис работает нормально"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
